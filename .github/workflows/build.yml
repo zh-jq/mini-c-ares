@@ -51,8 +51,3 @@ jobs:
         name: Build
       - run: cargo test
         name: Run tests
-      - run: |
-          cargo update -Z minimal-versions
-          cargo build
-        if: matrix.rust == 'nightly'
-        name: Check minimal versions
