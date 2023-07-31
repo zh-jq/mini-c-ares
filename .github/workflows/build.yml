@@ -9,10 +9,10 @@ on:
 jobs:
   test:
     name: Test
-    runs-on: "${{ matrix.os }}"
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        build: [x86_64, x86_64-beta, x86_64-nightly, i686, macos]
+        build: [x86_64, x86_64-beta, x86_64-nightly, macos]
         include:
           - build: x86_64
             os: ubuntu-latest
