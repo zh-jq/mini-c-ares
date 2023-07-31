@@ -5,7 +5,7 @@ version = "7.6.0"
 description = """
 A minimal Rust wrapper for the c-ares library, for asynchronous DNS requests, based on rust-c-ares
 """
-repository = "https://github.com/zh_jq/mini-c-ares"
+repository = "https://github.com/zh-jq/mini-c-ares"
 documentation = "https://docs.rs/mini-c-ares"
 readme = "README.md"
 keywords = ["DNS", "c-ares"]
