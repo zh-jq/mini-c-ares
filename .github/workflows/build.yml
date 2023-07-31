@@ -42,7 +42,7 @@ jobs:
         if: matrix.build == 'macos'
         name: Install c-ares
       - run: apt install libc-ares-dev
-        if: matrix.build != 'macos'
+        if: matrix.os == 'ubuntu-latest'
         name: Install c-ares
       - run: cargo fmt -- --check
         if: matrix.build == 'x86_64'
