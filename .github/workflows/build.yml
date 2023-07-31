@@ -41,7 +41,7 @@ jobs:
       - run: brew install c-ares
         if: matrix.build == 'macos'
         name: Install c-ares
-      - run: apt install libc-ares-dev
+      - run: sudo apt-get install libc-ares-dev
         if: matrix.os == 'ubuntu-latest'
         name: Install c-ares
       - run: cargo fmt -- --check
