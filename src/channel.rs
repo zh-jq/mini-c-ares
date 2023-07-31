@@ -307,7 +307,7 @@ impl Channel {
 
     /// Handle input and output events associated with the specified file descriptors (sockets).
     /// Also handles timeouts associated with the `Channel`.
-    pub fn process(&mut self, read_fds: &mut c_types::fd_set, write_fds: &mut c_types::fd_set) {
+    pub fn process(&mut self, read_fds: &mut libc::fd_set, write_fds: &mut libc::fd_set) {
         unsafe { c_ares_sys::ares_process(self.ares_channel, read_fds, write_fds) }
         panic::propagate();
     }
@@ -328,7 +328,7 @@ impl Channel {
 
     /// Retrieve the set of socket descriptors which the calling application should wait on for
     /// reading and / or writing.
-    pub fn fds(&self, read_fds: &mut c_types::fd_set, write_fds: &mut c_types::fd_set) -> u32 {
+    pub fn fds(&self, read_fds: &mut libc::fd_set, write_fds: &mut libc::fd_set) -> u32 {
         unsafe { c_ares_sys::ares_fds(self.ares_channel, read_fds, write_fds) as u32 }
     }
 
@@ -817,8 +817,8 @@ impl Channel {
     where
         F: FnOnce(Result<HostResults>) + Send + 'static,
     {
-        let in_addr: c_types::in_addr;
-        let in6_addr: c_types::in6_addr;
+        let in_addr: libc::in_addr;
+        let in6_addr: libc::in6_addr;
         let c_addr = match *address {
             IpAddr::V4(v4) => {
                 in_addr = ipv4_as_in_addr(v4);
@@ -830,8 +830,8 @@ impl Channel {
             }
         };
         let (family, length) = match *address {
-            IpAddr::V4(_) => (AddressFamily::INET, mem::size_of::<c_types::in_addr>()),
-            IpAddr::V6(_) => (AddressFamily::INET6, mem::size_of::<c_types::in6_addr>()),
+            IpAddr::V4(_) => (AddressFamily::INET, mem::size_of::<libc::in_addr>()),
+            IpAddr::V6(_) => (AddressFamily::INET6, mem::size_of::<libc::in6_addr>()),
         };
         let c_arg = Box::into_raw(Box::new(handler));
         unsafe {
@@ -877,21 +877,21 @@ impl Channel {
     where
         F: FnOnce(Result<NameInfoResult>) + Send + 'static,
     {
-        let sockaddr_in: c_types::sockaddr_in;
-        let sockaddr_in6: c_types::sockaddr_in6;
+        let sockaddr_in: libc::sockaddr_in;
+        let sockaddr_in6: libc::sockaddr_in6;
         let c_addr = match *address {
             SocketAddr::V4(ref v4) => {
                 sockaddr_in = socket_addrv4_as_sockaddr_in(v4);
-                &sockaddr_in as *const _ as *const c_types::sockaddr
+                &sockaddr_in as *const _ as *const libc::sockaddr
             }
             SocketAddr::V6(ref v6) => {
                 sockaddr_in6 = socket_addrv6_as_sockaddr_in6(v6);
-                &sockaddr_in6 as *const _ as *const c_types::sockaddr
+                &sockaddr_in6 as *const _ as *const libc::sockaddr
             }
         };
         let length = match *address {
-            SocketAddr::V4(_) => mem::size_of::<c_types::sockaddr_in>(),
-            SocketAddr::V6(_) => mem::size_of::<c_types::sockaddr_in6>(),
+            SocketAddr::V4(_) => mem::size_of::<libc::sockaddr_in>(),
+            SocketAddr::V6(_) => mem::size_of::<libc::sockaddr_in6>(),
         };
         let c_arg = Box::into_raw(Box::new(handler));
         unsafe {

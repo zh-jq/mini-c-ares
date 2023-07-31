@@ -1,41 +1,27 @@
 [package]
-name = "c-ares-sys"
+name = "mini-c-ares-sys"
 license = "MIT"
 version = "5.4.2"
-authors = ["David Hotham"]
-build = "build.rs"
 links = "cares"
-description = "Low-level bindings to the c-ares library"
-repository = "https://github.com/dimbleby/rust-c-ares"
+description = "Minimal Low-level bindings to the c-ares library, based on c-ares-sys"
+repository = "https://github.com/zh_jq/mini-c-ares"
 readme = "README.md"
 keywords = ["DNS", "c-ares"]
 categories = ["external-ffi-bindings", "network-programming"]
 edition = "2021"
 include = [
-  "src/**/*",
+  "src/*",
   "LICENSE.txt",
   "README.md",
   "CHANGELOG.md",
-  "c-ares/**/*",
   "build.rs",
 ]
 
 [build-dependencies]
-cc = "1"
-fs_extra = "1.1"
-metadeps = "1.1.1"
-cmake = { version = "0.1", optional = true }
+pkg-config = "0.3.27"
 
 [dependencies]
 libc = "0.2"
-c-types = "2.0.2"
 
 [target.'cfg(target_os = "android")'.dependencies]
 jni-sys = "0.3"
-
-[package.metadata.pkg-config]
-libcares = "1.19.0"
-
-[features]
-default = []
-build-cmake = ["cmake"]

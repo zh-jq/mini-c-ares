@@ -1,3 +1,0 @@
-[submodule "c-ares-sys/c-ares"]
-        path = c-ares-sys/c-ares
-        url = https://github.com/dimbleby/c-ares.git

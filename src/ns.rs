@@ -19,7 +19,7 @@ pub struct NSResults {
 impl NSResults {
     /// Obtain an `NSResults` from the response to an NS lookup.
     pub fn parse_from(data: &[u8]) -> Result<NSResults> {
-        let mut hostent: *mut c_types::hostent = ptr::null_mut();
+        let mut hostent: *mut libc::hostent = ptr::null_mut();
         let parse_status = unsafe {
             c_ares_sys::ares_parse_ns_reply(data.as_ptr(), data.len() as c_int, &mut hostent)
         };
@@ -31,7 +31,7 @@ impl NSResults {
         }
     }
 
-    fn new(hostent: *mut c_types::hostent) -> Self {
+    fn new(hostent: *mut libc::hostent) -> Self {
         NSResults {
             hostent: HostentOwned::new(hostent),
         }

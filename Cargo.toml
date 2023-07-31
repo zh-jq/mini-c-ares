@@ -1,13 +1,12 @@
 [package]
-name = "c-ares"
+name = "mini-c-ares"
 license = "MIT"
 version = "7.6.0"
-authors = ["David Hotham"]
 description = """
-A Rust wrapper for the c-ares library, for asynchronous DNS requests.
+A minimal Rust wrapper for the c-ares library, for asynchronous DNS requests, based on rust-c-ares
 """
-repository = "https://github.com/dimbleby/rust-c-ares"
-documentation = "https://docs.rs/c-ares"
+repository = "https://github.com/zh_jq/mini-c-ares"
+documentation = "https://docs.rs/mini-c-ares"
 readme = "README.md"
 keywords = ["DNS", "c-ares"]
 categories = ["api-bindings", "asynchronous", "network-programming"]
@@ -16,18 +15,8 @@ include = ["src/**/*", "LICENSE.txt", "README.md", "CHANGELOG.md"]
 
 [dependencies]
 bitflags = "2.0"
-c-ares-sys = { version = "5.4.0", path = "c-ares-sys" }
-c-types = "2.0.2"
+c-ares-sys = { package = "mini-c-ares-sys", version = "5.4.0", path = "c-ares-sys" }
+libc = "0.2"
 itertools = "0.11"
-
-[target.'cfg(unix)'.dev-dependencies]
-nix = { version = "0.26", default-features = false, features = ["event"] }
-
-[target.'cfg(windows)'.dev-dependencies]
-winapi = { version = "0.3", features = ["winsock2"] }
-
-[features]
-default = []
-build-cmake = ["c-ares-sys/build-cmake"]
 
 [workspace]

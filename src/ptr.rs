@@ -19,7 +19,7 @@ pub struct PTRResults {
 impl PTRResults {
     /// Obtain a `PTRResults` from the response to a PTR lookup.
     pub fn parse_from(data: &[u8]) -> Result<PTRResults> {
-        let mut hostent: *mut c_types::hostent = ptr::null_mut();
+        let mut hostent: *mut libc::hostent = ptr::null_mut();
         let dummy_ip = [0, 0, 0, 0];
         let parse_status = unsafe {
             c_ares_sys::ares_parse_ptr_reply(
@@ -27,7 +27,7 @@ impl PTRResults {
                 data.len() as c_int,
                 dummy_ip.as_ptr() as *const c_void,
                 dummy_ip.len() as c_int,
-                c_types::AF_INET,
+                libc::AF_INET,
                 &mut hostent,
             )
         };
@@ -39,7 +39,7 @@ impl PTRResults {
         }
     }
 
-    fn new(hostent: *mut c_types::hostent) -> Self {
+    fn new(hostent: *mut libc::hostent) -> Self {
         PTRResults {
             hostent: HostentOwned::new(hostent),
         }

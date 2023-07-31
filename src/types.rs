@@ -10,13 +10,13 @@ pub const SOCKET_BAD: Socket = c_ares_sys::ARES_SOCKET_BAD;
 #[derive(Copy, Clone, Eq, PartialEq, Debug, Hash, PartialOrd, Ord)]
 pub enum AddressFamily {
     /// IPv4.
-    INET = c_types::AF_INET as isize,
+    INET = libc::AF_INET as isize,
 
     /// IPv6.
-    INET6 = c_types::AF_INET6 as isize,
+    INET6 = libc::AF_INET6 as isize,
 
     /// Unspecified.
-    UNSPEC = c_types::AF_UNSPEC as isize,
+    UNSPEC = libc::AF_UNSPEC as isize,
 }
 
 // See arpa/nameser.h

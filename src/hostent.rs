@@ -11,11 +11,11 @@ use itertools::Itertools;
 use crate::types::AddressFamily;
 use crate::utils::address_family;
 
-fn hostname(hostent: &c_types::hostent) -> &CStr {
+fn hostname(hostent: &libc::hostent) -> &CStr {
     unsafe { CStr::from_ptr(hostent.h_name) }
 }
 
-fn addresses(hostent: &c_types::hostent) -> HostAddressResultsIter {
+fn addresses(hostent: &libc::hostent) -> HostAddressResultsIter {
     // h_addrtype is `c_short` on windows, `c_int` on unix.  Tell clippy to allow the identity
     // conversion in the latter case.
     #[allow(clippy::useless_conversion)]
@@ -26,13 +26,13 @@ fn addresses(hostent: &c_types::hostent) -> HostAddressResultsIter {
     }
 }
 
-fn aliases(hostent: &c_types::hostent) -> HostAliasResultsIter {
+fn aliases(hostent: &libc::hostent) -> HostAliasResultsIter {
     HostAliasResultsIter {
         next: unsafe { &*(hostent.h_aliases as *const _) },
     }
 }
 
-fn display(hostent: &c_types::hostent, fmt: &mut fmt::Formatter) -> fmt::Result {
+fn display(hostent: &libc::hostent, fmt: &mut fmt::Formatter) -> fmt::Result {
     write!(
         fmt,
         "Hostname: {}, ",
@@ -47,7 +47,7 @@ fn display(hostent: &c_types::hostent, fmt: &mut fmt::Formatter) -> fmt::Result 
 }
 
 pub trait HasHostent<'a>: Sized {
-    fn hostent(self) -> &'a c_types::hostent;
+    fn hostent(self) -> &'a libc::hostent;
 
     fn hostname(self) -> &'a CStr {
         let hostent = self.hostent();
@@ -67,12 +67,12 @@ pub trait HasHostent<'a>: Sized {
 
 #[derive(Debug)]
 pub struct HostentOwned {
-    inner: *mut c_types::hostent,
-    phantom: PhantomData<c_types::hostent>,
+    inner: *mut libc::hostent,
+    phantom: PhantomData<libc::hostent>,
 }
 
 impl HostentOwned {
-    pub fn new(hostent: *mut c_types::hostent) -> Self {
+    pub fn new(hostent: *mut libc::hostent) -> Self {
         HostentOwned {
             inner: hostent,
             phantom: PhantomData,
@@ -81,7 +81,7 @@ impl HostentOwned {
 }
 
 impl<'a> HasHostent<'a> for &'a HostentOwned {
-    fn hostent(self) -> &'a c_types::hostent {
+    fn hostent(self) -> &'a libc::hostent {
         unsafe { &*self.inner }
     }
 }
@@ -106,17 +106,17 @@ unsafe impl Sync for HostentOwned {}
 
 #[derive(Clone, Copy)]
 pub struct HostentBorrowed<'a> {
-    inner: &'a c_types::hostent,
+    inner: &'a libc::hostent,
 }
 
 impl<'a> HostentBorrowed<'a> {
-    pub fn new(hostent: &'a c_types::hostent) -> Self {
+    pub fn new(hostent: &'a libc::hostent) -> Self {
         HostentBorrowed { inner: hostent }
     }
 }
 
 impl<'a> HasHostent<'a> for HostentBorrowed<'a> {
-    fn hostent(self) -> &'a c_types::hostent {
+    fn hostent(self) -> &'a libc::hostent {
         self.inner
     }
 }

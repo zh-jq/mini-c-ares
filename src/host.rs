@@ -13,7 +13,7 @@ pub struct HostResults<'a> {
 }
 
 impl<'a> HostResults<'a> {
-    fn new(hostent: &'a c_types::hostent) -> Self {
+    fn new(hostent: &'a libc::hostent) -> Self {
         HostResults {
             hostent: HostentBorrowed::new(hostent),
         }
@@ -49,13 +49,13 @@ pub(crate) unsafe extern "C" fn get_host_callback<F>(
     arg: *mut c_void,
     status: c_int,
     _timeouts: c_int,
-    hostent: *mut c_types::hostent,
+    hostent: *mut libc::hostent,
 ) where
     F: FnOnce(Result<HostResults>) + Send + 'static,
 {
     panic::catch(|| {
         let result = if status == c_ares_sys::ARES_SUCCESS {
-            let host_results = HostResults::new(&*(hostent as *const c_types::hostent));
+            let host_results = HostResults::new(&*(hostent as *const libc::hostent));
             Ok(host_results)
         } else {
             Err(Error::from(status))
