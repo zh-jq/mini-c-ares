@@ -1,3 +1,3 @@
 fn main() {
-    pkg_config::probe_library("libcares").unwrap();
+    pkg_config::Config::new().atleast_version("1.11.0").probe("libcares").unwrap();
 }
