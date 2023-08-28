@@ -15,7 +15,7 @@ include = ["src/**/*", "LICENSE.txt", "README.md", "CHANGELOG.md"]
 
 [dependencies]
 bitflags = "2.0"
-c-ares-sys = { package = "mini-c-ares-sys", version = "0.2.0", path = "c-ares-sys" }
+c-ares-sys = { package = "mini-c-ares-sys", version = "0.2.1", path = "c-ares-sys" }
 libc = "0.2"
 itertools = "0.11"
 
