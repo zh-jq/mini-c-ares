@@ -19,4 +19,8 @@ c-ares-sys = { package = "mini-c-ares-sys", version = "0.1.0", path = "c-ares-sy
 libc = "0.2"
 itertools = "0.11"
 
+[features]
+default = []
+vendored = ["c-ares-sys/vendored"]
+
 [workspace]
