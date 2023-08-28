@@ -1,5 +1,5 @@
 
-#[cfg(not(features = "vendored"))]
+#[cfg(not(feature = "vendored"))]
 fn main() {
     pkg_config::Config::new()
         .atleast_version("1.12.0")
@@ -7,7 +7,7 @@ fn main() {
         .unwrap();
 }
 
-#[cfg(features = "vendored")]
+#[cfg(feature = "vendored")]
 fn main() {
     c_ares_src::build();
 }

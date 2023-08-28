@@ -19,7 +19,7 @@ include = [
 
 [build-dependencies]
 pkg-config = "0.3.27"
-c-ares-src = { package = "mini-c-ares-src", version = "0.1", optional = true }
+c-ares-src = { package = "mini-c-ares-src", version = "0.2", optional = true }
 
 [dependencies]
 libc = "0.2"
