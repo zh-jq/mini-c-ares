@@ -1,4 +1,3 @@
-
 #[cfg(not(feature = "vendored"))]
 fn main() {
     pkg_config::Config::new()
@@ -11,4 +10,3 @@ fn main() {
 fn main() {
     c_ares_src::build();
 }
-
